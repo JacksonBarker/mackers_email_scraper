@@ -30,7 +30,10 @@ class ICSServer(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-type", "text/calendar")
             self.end_headers()
-            UpdateCalendar(imap, IS_FROM, TIME_ZONE, EVENT_SUMMARY)
+            try:
+                UpdateCalendar(imap, IS_FROM, TIME_ZONE, EVENT_SUMMARY)
+            except BaseException as e:
+                print(e)
             self.wfile.write(bytes(self.ServeICS(), "utf-8"))
         else:
             self.send_response(404)
